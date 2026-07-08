@@ -41,6 +41,7 @@ export const calculateBMI = (height: number, weight:number): bmiResult =>{
     return { height, weight, bmi: "NaN" };
 };
 
+
 try {
     const { height, weight } = parseBMIArguments(process.argv);
     console.log(calculateBMI(height, weight));
