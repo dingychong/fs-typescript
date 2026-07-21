@@ -1,18 +1,23 @@
 import { patients } from '../../data/patients.ts';
 import type { NonSensitivePatient } from '../types.ts';
 import express, { type Response } from 'express';
-import { parseNewPatientEntry } from '../utils.ts';
+import { newPatientEntrySchema } from '../types.ts';
+import z from 'zod';
 const router = express.Router();
 
 router.post('/', (req, res) => {
     try {
-        const newPatientEntry = parseNewPatientEntry(req.body);
+        const newPatientEntry = newPatientEntrySchema.parse(req.body);
         const id = crypto.randomUUID();
         const newPatient = { id, ...newPatientEntry };
         patients.push(newPatient);
         res.status(201).json(newPatient);
     } catch (error: unknown) {
-        res.status(400).send(error instanceof Error ? error.message : "An error occurred");
+        if (error instanceof z.ZodError) {
+            res.status(400).send( { error: error.issues });
+        } else {
+            res.status(400).send({ error: 'unknown error' });
+        }
     }
 });
 
