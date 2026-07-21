@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
         const id = crypto.randomUUID();
         const newPatient = { id, ...newPatientEntry };
         patients.push(newPatient);
-        res.status(201).json(newPatient);
+        res.status(200).json(newPatient);
     } catch (error: unknown) {
         if (error instanceof z.ZodError) {
             res.status(400).send( { error: error.issues });
