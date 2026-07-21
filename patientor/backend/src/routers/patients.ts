@@ -1,18 +1,30 @@
 import { patients } from '../../data/patients.ts';
-import express from 'express';
-
+import type { NonSensitivePatient } from '../types.ts';
+import express, { type Response } from 'express';
+import { parseNewPatientEntry } from '../utils.ts';
 const router = express.Router();
 
 router.post('/', (req, res) => {
-    const newPatient = req.body;
-    const id = crypto.randomUUID();
-    newPatient.id = id;
-    patients.push(newPatient);
-    res.status(201).json(newPatient);
+    try {
+        const newPatientEntry = parseNewPatientEntry(req.body);
+        const id = crypto.randomUUID();
+        const newPatient = { id, ...newPatientEntry };
+        patients.push(newPatient);
+        res.status(201).json(newPatient);
+    } catch (error: unknown) {
+        res.status(400).send(error instanceof Error ? error.message : "An error occurred");
+    }
 });
 
-router.get('/', (_req, res) => {
-    res.json(patients);
+router.get('/', (_req, res: Response<NonSensitivePatient[]>) => {
+    const patientsWithoutSensitiveInfo = patients.map(({ id, name, occupation, gender, dateOfBirth }) => ({
+        id,
+        name,
+        occupation,
+        gender,
+        dateOfBirth,
+    }));
+    res.json(patientsWithoutSensitiveInfo);
 });
 
 export default router;

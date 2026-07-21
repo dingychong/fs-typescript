@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import patientRoutes from './routers/patients.ts';
-import diagnosisRoutes from './routers/diagnoses.ts';
+import patientRoutes from './src/routers/patients.ts';
+import diagnosisRoutes from './src/routers/diagnoses.ts';
 
 const app = express();
 app.use(cors());
