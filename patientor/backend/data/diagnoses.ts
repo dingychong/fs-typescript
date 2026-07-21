@@ -39,4 +39,4 @@ export const diagnoses: Diagnosis[] = [
     name: "Unspecified visual loss",
     latin: "Diminutio visus NAS"
   }
-]
+];

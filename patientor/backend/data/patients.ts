@@ -1,7 +1,7 @@
 import { Gender } from "../src/types.ts";
 import type { Patient } from "../src/types.ts";
 
-export let patients: Patient[] = [
+export const patients: Patient[] = [
   {
     id: "d2773330-3a6b-4c7e-8f1e-2f5b9c1e5f1a",
     name: "John Doe",
@@ -18,4 +18,4 @@ export let patients: Patient[] = [
     occupation: "Graphic Designer", 
     ssn: "987-65-4321",
   },
-]
+];
