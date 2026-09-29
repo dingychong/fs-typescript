@@ -1,5 +1,5 @@
 import { useState, type SyntheticEvent, type ChangeEvent } from 'react'
-import type { NewDiaryEntry, NonSensitiveDiaryEntry } from '../../types'
+import { Visibility, Weather, type NewDiaryEntry, type NonSensitiveDiaryEntry } from '../../types'
 import { TextField, InputLabel, MenuItem, Select, Button, type SelectChangeEvent } from '@mui/material'
 import { addDiary } from '../../services/diaries'
 
@@ -48,40 +48,40 @@ const AddNewDiaryForm = ({ setDiaries }: AddNewDiaryFormProps) => {
 
     return (
         <form onSubmit={addDiaryEntry}>
-            <TextField
-                label="Date"
-                value={date}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setDate(e.target.value)}
-                fullWidth
-                margin="normal"
-            />
-
-            <InputLabel id="weather-label">Weather</InputLabel>
-            <Select
-                labelId="weather-label"
-                value={weather}
-                onChange={(e: SelectChangeEvent) => setWeather(e.target.value as NewDiaryEntry['weather'])}
-                fullWidth
-            >
-                <MenuItem value="sunny">Sunny</MenuItem>
-                <MenuItem value="rainy">Rainy</MenuItem>
-                <MenuItem value="cloudy">Cloudy</MenuItem>
-                <MenuItem value="stormy">Stormy</MenuItem>
-                <MenuItem value="windy">Windy</MenuItem>
-            </Select>
-
-            <InputLabel id="visibility-label">Visibility</InputLabel>
-            <Select
-                labelId="visibility-label"
-                value={visibility}
-                onChange={(e: SelectChangeEvent) => setVisibility(e.target.value as NewDiaryEntry['visibility'])}
-                fullWidth
-            >
-                <MenuItem value="great">Great</MenuItem>
-                <MenuItem value="good">Good</MenuItem>
-                <MenuItem value="ok">Ok</MenuItem>
-                <MenuItem value="poor">Poor</MenuItem>
-            </Select>
+            <InputLabel id="date-label">Date</InputLabel>
+                <input
+                    type="date"
+                    value={date}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setDate(e.target.value)}
+                />
+            
+            <fieldset>
+                <legend> Weather Options </legend>
+                {Object.values(Weather).map((weatherOption) => (
+                    <label key={weatherOption}>
+                        <input
+                            type="radio"
+                            name="weather"
+                            value={weatherOption}
+                            checked={weather === weatherOption}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setWeather(e.target.value as NewDiaryEntry['weather'])}
+                        />
+                        {weatherOption}
+                    </label>
+                ))} 
+            </fieldset>
+            <fieldset>
+                <legend> Visibility Options </legend>
+                {Object.values(Visibility).map((v)=> (
+                    <input
+                        type="radio"
+                        name="visibility"
+                        value ={v}
+                        checked={visibility === v}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setVisibility(e.target.value as NewDiaryEntry['visibility'])}
+                    />
+                ))}
+            </fieldset>
 
             <TextField
                 label="Comment"
