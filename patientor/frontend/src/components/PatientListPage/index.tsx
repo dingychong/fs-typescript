@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Table, Button, TableHead, Typography, TableCell, TableRow, TableBody } from '@mui/material';
 import axios from 'axios';
 
-import { PatientFormValues, Patient } from "../../types";
+import { NewPatientEntry, Patient } from "../../types";
 import AddPatientModal from "../AddPatientModal";
 
 import HealthRatingBar from "../HealthRatingBar";
@@ -26,15 +26,20 @@ const PatientListPage = ({ patients, setPatients } : Props ) => {
     setError(undefined);
   };
 
-  const submitNewPatient = async (values: PatientFormValues) => {
+  const submitNewPatient = async (values: NewPatientEntry) => {
     try {
       const patient = await patientService.create(values);
       setPatients(patients.concat(patient));
       setModalOpen(false);
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
-        if (e?.response?.data && typeof e?.response?.data === "string") {
-          const message = e.response.data.replace('Something went wrong. Error: ', '');
+        const data = e.response?.data;
+        if (data && Array.isArray(data.error)) {
+          const message = data.error
+            .map((issue: { path: (string | number)[]; message: string }) =>
+              `${issue.path.join('.')}: ${issue.message}`
+            )
+            .join(', ');
           console.error(message);
           setError(message);
         } else {
@@ -66,7 +71,7 @@ const PatientListPage = ({ patients, setPatients } : Props ) => {
         <TableBody>
           {Object.values(patients).map((patient: Patient) => (
             <TableRow key={patient.id}>
-              <TableCell>{patient.name}</TableCell>
+              <TableCell><a href={`/patients/${patient.id}`}>{patient.name}</a></TableCell>
               <TableCell>{patient.gender}</TableCell>
               <TableCell>{patient.occupation}</TableCell>
               <TableCell>
@@ -80,6 +85,7 @@ const PatientListPage = ({ patients, setPatients } : Props ) => {
         modalOpen={modalOpen}
         onSubmit={submitNewPatient}
         error={error}
+        setError={setError}
         onClose={closeModal}
       />
       <Button variant="contained" onClick={() => openModal()}>
