@@ -1,6 +1,6 @@
 import { useState, SyntheticEvent } from "react";
 
-import {  TextField, InputLabel, MenuItem, Select, Grid, Button, SelectChangeEvent } from '@mui/material';
+import {  TextField, Button} from '@mui/material';
 
 import { NewEntry } from "../../types";
 
@@ -34,6 +34,7 @@ const AddHospitalEntryForm = ({ onCancel, onSubmit, baseFields }: Props) => {
   return (
     <>
         <TextField
+            type="date"
             label="Discharge Date"
             fullWidth
             value={dischargeDate}

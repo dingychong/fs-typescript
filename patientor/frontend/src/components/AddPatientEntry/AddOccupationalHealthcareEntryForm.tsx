@@ -1,6 +1,7 @@
 import { useState, SyntheticEvent } from "react";
 
-import {  TextField, InputLabel, MenuItem, Select, Grid, Button, SelectChangeEvent } from '@mui/material';
+import {  TextField, Button } from '@mui/material';
+
 
 import { NewEntry } from "../../types";
 
@@ -22,15 +23,23 @@ const AddOccupationalHealthcareEntryForm = ({ onCancel, onSubmit, baseFields }: 
   
   const addOccupationalHealthcareEntry = (event: SyntheticEvent) => {
     event.preventDefault();
+    try {
     onSubmit({
       ...baseFields,
       type: "OccupationalHealthcare",
       employerName,
-      sickLeave: {
-        startDate: sickLeaveStartDate,
-        endDate: sickLeaveEndDate
-      }
+      sickLeave: 
+        sickLeaveStartDate && sickLeaveEndDate 
+        ? { startDate: sickLeaveStartDate, endDate: sickLeaveEndDate } 
+        : undefined
     });
+    setEmployerName('');
+    setSickLeaveStartDate('');
+    setSickLeaveEndDate('');
+    } catch (error) {
+      console.error("Error adding occupational healthcare entry:", error);
+    } 
+
   };
   
   return (
@@ -42,17 +51,21 @@ const AddOccupationalHealthcareEntryForm = ({ onCancel, onSubmit, baseFields }: 
             onChange={({ target }) => setEmployerName(target.value)}
         />
         <TextField
+            type="date"
             label="Sick Leave Start Date"
             fullWidth
             value={sickLeaveStartDate}
             onChange={({ target }) => setSickLeaveStartDate(target.value)}
         />
         <TextField
+            type="date"
             label="Sick Leave End Date"
             fullWidth
             value={sickLeaveEndDate}
             onChange={({ target }) => setSickLeaveEndDate(target.value)}
         />
+
+
         <Button type="submit" onClick={addOccupationalHealthcareEntry}>Add Occupational Healthcare Entry</Button>
         <Button onClick={onCancel}>Cancel</Button>
     </>

@@ -24,16 +24,17 @@ const AddHealthCheckForm = ({ onCancel, onSubmit, baseFields }: Props) => {
       type: "HealthCheck",
       healthCheckRating
     });
+
   };
 
   return (
     <>
-    <select value={healthCheckRating} onChange={(e) => setHealthCheckRating(Number(e.target.value) as HealthCheckRating)}>
-        <option value={0}>Healthy</option>
-        <option value={1}>Low Risk</option>
-        <option value={2}>High Risk</option>
-        <option value={3}>Critical Risk</option>
-    </select>
+    <Select value={healthCheckRating} onChange={(e) => setHealthCheckRating(Number(e.target.value) as HealthCheckRating)}>
+        <MenuItem value={0}>0 - Healthy</MenuItem>
+        <MenuItem value={1}>1 - Low Risk</MenuItem>
+        <MenuItem value={2}>2 - High Risk</MenuItem>
+        <MenuItem value={3}>3 - Critical Risk</MenuItem>
+    </Select>
     <Button type="submit" onClick={addHealthCheckEntry}>Add Health Check Entry</Button>
     <Button onClick={onCancel}>Cancel</Button>
     </>

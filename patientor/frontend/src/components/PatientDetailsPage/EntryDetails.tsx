@@ -45,6 +45,11 @@ const OccupationalHealthcareEntryDetails = ({ entry, diagnosisDetails }: EntryDe
                 ))}
             </ul>
         </div>}
+        {entry.sickLeave && <div>
+            <p>Sick Leave:</p>
+            <p>Start Date: {entry.sickLeave.startDate}</p>
+            <p>End Date: {entry.sickLeave.endDate}</p>
+        </div>}
     </div>
 }
 

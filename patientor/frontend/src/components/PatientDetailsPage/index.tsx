@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import patientService from '../../services/patients';
-import type { Patient, Diagnosis } from '../../types';
+import type { Patient, Diagnosis, NewEntry} from '../../types';
 
 import EntryDetails from './EntryDetails';
 
 import AddEntryForm from "../AddPatientEntry/index";
+import axios from 'axios';
 
 
-const PatientDetailsPage = () => {
+
+const PatientDetailsPage = ({ patients, setPatients }: { patients: Patient[]; setPatients: React.Dispatch<React.SetStateAction<Patient[]>> }) => {
     const id = useParams<{ id: string }>().id;
     const [data, setData] = useState<Patient | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [diagnosisDetails, setDiagnosisDetails] = useState<Diagnosis[]>([]);
 
+    if (!id) {
+        return <div>No patient with this ID found.</div>;
+    }
     useEffect(() => {
         if (!id) {
             return;
@@ -37,7 +42,7 @@ const PatientDetailsPage = () => {
         return () => {
             cancelled = true;
         };
-    }, [id]);
+    }, [id, patients]);
     useEffect(() => {
         const fetchDiagnoses = async () => {
             try {
@@ -49,14 +54,35 @@ const PatientDetailsPage = () => {
         }
         void fetchDiagnoses();
     }, [id]);
-        
+    
+
+      const submitNewEntry = async (values: NewEntry) => {
+        try {
+          const patient: Patient = await patientService.postEntry(id, values);
+          setPatients(patients.map(p => p.id === patient.id ? patient : p ));
+        } catch (e: unknown) {
+          if (axios.isAxiosError(e)) {
+            const data = e.response?.data;
+            if (data && Array.isArray(data.error)) {
+              const message = data.error
+                .map((issue: { path: (string | number)[]; message: string }) =>
+                  `${issue.path.join('.')}: ${issue.message}`
+                )
+                .join(', ');
+              console.error(message);
+              setError(message);
+            } else {
+              setError("Unrecognized axios error");
+            }
+          } else {
+            console.error("Unknown error", e);
+            setError("Unknown error");
+          }
+        }
+      };
 
     if (!id) {
         return <div>No patient with this ID found.</div>;
-    }
-
-    if (error) {
-        return <div>{error}</div>;
     }
 
     if (!data || data.id !== id) {
@@ -78,7 +104,7 @@ const PatientDetailsPage = () => {
             ) : (
                 <p>No entries available.</p>
             )}
-            <AddEntryForm onSubmit={() => {}} onCancel={() => {}} />
+            <AddEntryForm onSubmit={submitNewEntry} onCancel={() => {}} error={error} setError={setError} diagnosisDetails={diagnosisDetails} />
         </div>
 
     )

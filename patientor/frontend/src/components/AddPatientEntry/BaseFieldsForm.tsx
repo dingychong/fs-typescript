@@ -1,3 +1,7 @@
+import { TextField, Select, MenuItem, FormControl, InputLabel} from "@mui/material";
+
+import { Diagnosis } from "../../types";
+
 type BaseValues = {
     description: string;
     date: string;
@@ -8,32 +12,49 @@ type BaseValues = {
 type props = {
     baseFields: BaseValues;
     setBaseFields: React.Dispatch<React.SetStateAction<BaseValues>>;
+    diagnosisDetails: Diagnosis[];
 }
 
-const BaseFieldsForm = ({ baseFields, setBaseFields }: props) => {
+const BaseFieldsForm = ({ baseFields, setBaseFields, diagnosisDetails }: props) => {
     return (
         <div>
-            <input
+            <TextField
                 placeholder = "description"
                 value = {baseFields.description}
                 onChange = { (e) => setBaseFields({...baseFields, description: e.target.value})}
             />
-            <input
+            <TextField
+                type = "date"
                 placeholder = "date"
                 value = {baseFields.date}
                 onChange = { (e) => setBaseFields({...baseFields, date: e.target.value})}
             />
-            <input
+            <TextField
                 placeholder = "specialist"
                 value = {baseFields.specialist}
                 onChange = { (e) => setBaseFields({...baseFields, specialist: e.target.value})}
             />
-            <input
-                placeholder = "diagnosis codes"
-                value = {baseFields.diagnosisCodes}
-                onChange = { (e) => setBaseFields({...baseFields, diagnosisCodes: e.target.value.split(',')})}
-            />
-            
+            <FormControl sx={{minWidth: 200 }}>
+                <InputLabel id="diagnosis-codes-label">Diagnosis Codes</InputLabel>
+                <Select
+                    multiple
+                    labelId = "diagnosis-codes-label"
+                    label="Diagnosis Codes"
+                    value = {baseFields.diagnosisCodes}
+                    onChange = { (e) => setBaseFields({...baseFields, diagnosisCodes: (typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)})}
+                    renderValue={(selected) => (selected as string[]).join(', ')}
+                >
+                    {diagnosisDetails.map((diagnosis) => (
+                        <MenuItem
+                            key={diagnosis.code}
+                            value={diagnosis.code}
+                        >
+                            {diagnosis.code} - {diagnosis.name}
+                        </MenuItem>
+                    ))}
+                
+                </Select>
+            </FormControl>
         </div>
     )
 
