@@ -15,13 +15,14 @@ type BaseValues = {
     diagnosisCodes?: string[];
 }
 type props = {
+    onClose: () => void;
     onCancel: () => void;
     onSubmit: (values: NewEntry) => void;
     error: string | null;
     setError: (error: string) => void;
     diagnosisDetails: Diagnosis[];
 }
-const AddEntryForm = ({ onCancel, onSubmit, error, setError, diagnosisDetails }: props) => {
+const AddEntryForm = ({ onClose, onCancel, onSubmit, error, setError, diagnosisDetails }: props) => {
     const [type, setType] = useState<NewEntry['type']>('HealthCheck');
     const [baseFields, setBaseFields] = useState<BaseValues>({
         description: '',
@@ -56,6 +57,7 @@ const AddEntryForm = ({ onCancel, onSubmit, error, setError, diagnosisDetails }:
             {type === 'OccupationalHealthcare' && (
                 <AddOccupationalHealthcareEntryForm baseFields={baseFields} onSubmit={onSubmit} onCancel={onCancel} />
             )}
+            <button onClick={onClose}>Close</button>
         </div>
         
     );

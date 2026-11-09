@@ -11,11 +11,16 @@ import axios from 'axios';
 
 
 const PatientDetailsPage = ({ patients, setPatients }: { patients: Patient[]; setPatients: React.Dispatch<React.SetStateAction<Patient[]>> }) => {
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+
     const id = useParams<{ id: string }>().id;
     const [data, setData] = useState<Patient | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [diagnosisDetails, setDiagnosisDetails] = useState<Diagnosis[]>([]);
-
+    
+    const closeModal = (): void => {
+        setModalOpen(false);
+    };
     useEffect(() => {
         if (!id) {
             return;
@@ -90,6 +95,7 @@ const PatientDetailsPage = ({ patients, setPatients }: { patients: Patient[]; se
 
     return (
         <div>
+            <h2>{data.name}</h2>
             <h2>Patient Details</h2>
             <p>Name: {data.name}</p>
             <p>Gender: {data.gender}</p>
@@ -103,7 +109,12 @@ const PatientDetailsPage = ({ patients, setPatients }: { patients: Patient[]; se
             ) : (
                 <p>No entries available.</p>
             )}
-            <AddEntryForm onSubmit={submitNewEntry} onCancel={() => {}} error={error} setError={setError} diagnosisDetails={diagnosisDetails} />
+            <button onClick={() => setModalOpen(true)}>
+                Add New Entry
+            </button>
+            {modalOpen && (
+                <AddEntryForm onClose={closeModal} onSubmit={submitNewEntry} onCancel={closeModal} error={error} setError={setError} diagnosisDetails={diagnosisDetails} />
+            )}
         </div>
 
     );
