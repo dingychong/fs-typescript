@@ -101,6 +101,7 @@ const PatientDetailsPage = ({ patients, setPatients }: { patients: Patient[]; se
             <p>Gender: {data.gender}</p>
             <p>Occupation: {data.occupation}</p>
             <p>Date of Birth: {data.dateOfBirth}</p>
+            <p>SSN: {data.ssn}</p>
             <h3>Entries</h3>
             {data.entries.length > 0 ? (
                 data.entries.map((entry) => (

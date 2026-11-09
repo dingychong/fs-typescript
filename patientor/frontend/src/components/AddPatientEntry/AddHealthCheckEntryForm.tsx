@@ -29,7 +29,7 @@ const AddHealthCheckForm = ({ onCancel, onSubmit, baseFields }: Props) => {
 
   return (
     <>
-    <Select value={healthCheckRating} onChange={(e) => setHealthCheckRating(Number(e.target.value) as HealthCheckRating)}>
+    <Select label="Health Check Rating" value={healthCheckRating} onChange={(e) => setHealthCheckRating(Number(e.target.value) as HealthCheckRating)}>
         <MenuItem value={0}>0 - Healthy</MenuItem>
         <MenuItem value={1}>1 - Low Risk</MenuItem>
         <MenuItem value={2}>2 - High Risk</MenuItem>

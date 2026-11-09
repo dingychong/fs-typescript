@@ -20,17 +20,20 @@ const BaseFieldsForm = ({ baseFields, setBaseFields, diagnosisDetails }: props) 
         <div>
             <TextField
                 placeholder = "description"
+                label="Description"
                 value = {baseFields.description}
                 onChange = { (e) => setBaseFields({...baseFields, description: e.target.value})}
             />
             <TextField
                 type = "date"
+                label="Date"
                 placeholder = "date"
                 value = {baseFields.date}
                 onChange = { (e) => setBaseFields({...baseFields, date: e.target.value})}
             />
             <TextField
                 placeholder = "specialist"
+                label="Specialist"
                 value = {baseFields.specialist}
                 onChange = { (e) => setBaseFields({...baseFields, specialist: e.target.value})}
             />
