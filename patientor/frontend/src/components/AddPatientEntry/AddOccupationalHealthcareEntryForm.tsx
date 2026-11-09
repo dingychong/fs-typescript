@@ -69,7 +69,7 @@ const AddOccupationalHealthcareEntryForm = ({ onCancel, onSubmit, baseFields }: 
         <Button type="submit" onClick={addOccupationalHealthcareEntry}>Add Occupational Healthcare Entry</Button>
         <Button onClick={onCancel}>Cancel</Button>
     </>
-  )
+  );
 };
 
 export default AddOccupationalHealthcareEntryForm;

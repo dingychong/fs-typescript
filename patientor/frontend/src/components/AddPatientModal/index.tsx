@@ -21,7 +21,7 @@ const AddPatientModal = ({ modalOpen, onClose, onSubmit, setError, error }: Prop
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [error]);
+  }, [error, setError]);
   return (
    <Dialog fullWidth={true} open={modalOpen} onClose={() => onClose()}>
       <DialogTitle>Add a new patient</DialogTitle>

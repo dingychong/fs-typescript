@@ -49,7 +49,7 @@ const AddHospitalEntryForm = ({ onCancel, onSubmit, baseFields }: Props) => {
         <Button type="submit" onClick={addHospitalEntry}>Add Hospital Entry</Button>
         <Button onClick={onCancel}>Cancel</Button>
     </>
-  )
+  );
 };
 
 export default AddHospitalEntryForm;

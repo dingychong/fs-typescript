@@ -2,6 +2,7 @@ import { Box, Paper } from '@mui/material';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import WorkIcon from '@mui/icons-material/Work';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import { Entry } from '../../types';
 
 const entryIcons = {
   HealthCheck: <MedicalServicesIcon fontSize="small" />,
@@ -9,8 +10,9 @@ const entryIcons = {
   Hospital: <LocalHospitalIcon fontSize="small" />,
 };
 
+
 type EntryCardProps = {
-  entry: any;
+  entry: Entry;
   children: React.ReactNode;
 };
 

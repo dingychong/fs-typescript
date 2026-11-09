@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, DialogContent, Divider, Alert, Select, MenuItem} from '@mui/material';
+import { Alert, Select, MenuItem} from '@mui/material';
 
 import { Diagnosis, NewEntry } from "../../types";
 import { useEffect, useState } from 'react';
@@ -36,7 +36,7 @@ const AddEntryForm = ({ onCancel, onSubmit, error, setError, diagnosisDetails }:
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [error]);
+  }, [error, setError]);
     return (
         <div>
             {error && <Alert severity="error">{error}</Alert>}
@@ -58,7 +58,7 @@ const AddEntryForm = ({ onCancel, onSubmit, error, setError, diagnosisDetails }:
             )}
         </div>
         
-    )
+    );
 
 };
 

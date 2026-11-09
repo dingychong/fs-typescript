@@ -104,7 +104,7 @@ export const newEntrySchema = z.discriminatedUnion('type',[
   healthCheckEntrySchema,
   occupationalHealthcareEntrySchema,
   hospitalEntrySchema
-])
+]);
 
 export const newPatientEntrySchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),

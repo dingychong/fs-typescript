@@ -20,6 +20,6 @@ router.get('/:code', (req, res) => {
     }
 
     res.json(diagnosis);
-})
+});
 
 export default router;

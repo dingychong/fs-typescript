@@ -24,8 +24,8 @@ const HealthCheckEntryDetails = ({ entry, diagnosisDetails }: EntryDetailsProps)
                 ))}
             </ul>
         </div>}
-    </div>
-}
+    </div>;
+};
 
 const OccupationalHealthcareEntryDetails = ({ entry, diagnosisDetails }: EntryDetailsProps) => {
     if (entry.type !== "OccupationalHealthcare") {
@@ -50,8 +50,8 @@ const OccupationalHealthcareEntryDetails = ({ entry, diagnosisDetails }: EntryDe
             <p>Start Date: {entry.sickLeave.startDate}</p>
             <p>End Date: {entry.sickLeave.endDate}</p>
         </div>}
-    </div>
-}
+    </div>;
+};
 
 const HospitalEntryDetails = ({ entry, diagnosisDetails }: EntryDetailsProps) => {
     if (entry.type !== "Hospital") {
@@ -72,8 +72,8 @@ const HospitalEntryDetails = ({ entry, diagnosisDetails }: EntryDetailsProps) =>
                 ))}
             </ul>
         </div>}
-    </div>
-}
+    </div>;
+};
 
 const EntryDetails = ({ entry, diagnosisDetails }: EntryDetailsProps) => {
     switch (entry.type) {
@@ -86,7 +86,7 @@ const EntryDetails = ({ entry, diagnosisDetails }: EntryDetailsProps) => {
         default:
             return assertNever(entry);
     }
-}
+};
 
 export default EntryDetails;
 
@@ -94,4 +94,4 @@ const assertNever = (value: never): never => {
     throw new Error(
         `Unhandled discriminated union member: ${JSON.stringify(value)}`
     );
-}
+};

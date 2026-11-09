@@ -56,7 +56,7 @@ const BaseFieldsForm = ({ baseFields, setBaseFields, diagnosisDetails }: props) 
                 </Select>
             </FormControl>
         </div>
-    )
+    );
 
 };
 

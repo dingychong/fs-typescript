@@ -16,9 +16,6 @@ const PatientDetailsPage = ({ patients, setPatients }: { patients: Patient[]; se
     const [error, setError] = useState<string | null>(null);
     const [diagnosisDetails, setDiagnosisDetails] = useState<Diagnosis[]>([]);
 
-    if (!id) {
-        return <div>No patient with this ID found.</div>;
-    }
     useEffect(() => {
         if (!id) {
             return;
@@ -51,35 +48,37 @@ const PatientDetailsPage = ({ patients, setPatients }: { patients: Patient[]; se
             } catch {
                 return;
             }
-        }
+        };
         void fetchDiagnoses();
     }, [id]);
     
-
-      const submitNewEntry = async (values: NewEntry) => {
-        try {
-          const patient: Patient = await patientService.postEntry(id, values);
-          setPatients(patients.map(p => p.id === patient.id ? patient : p ));
-        } catch (e: unknown) {
-          if (axios.isAxiosError(e)) {
-            const data = e.response?.data;
-            if (data && Array.isArray(data.error)) {
-              const message = data.error
-                .map((issue: { path: (string | number)[]; message: string }) =>
-                  `${issue.path.join('.')}: ${issue.message}`
-                )
-                .join(', ');
-              console.error(message);
-              setError(message);
-            } else {
-              setError("Unrecognized axios error");
-            }
-          } else {
-            console.error("Unknown error", e);
-            setError("Unknown error");
-          }
+    if (!id) {
+        return <div>No patient with this ID found.</div>;
+    }
+    const submitNewEntry = async (values: NewEntry) => {
+    try {
+        const patient: Patient = await patientService.postEntry(id, values);
+        setPatients(patients.map(p => p.id === patient.id ? patient : p ));
+    } catch (e: unknown) {
+        if (axios.isAxiosError(e)) {
+        const data = e.response?.data;
+        if (data && Array.isArray(data.error)) {
+            const message = data.error
+            .map((issue: { path: (string | number)[]; message: string }) =>
+                `${issue.path.join('.')}: ${issue.message}`
+            )
+            .join(', ');
+            console.error(message);
+            setError(message);
+        } else {
+            setError("Unrecognized axios error");
         }
-      };
+        } else {
+        console.error("Unknown error", e);
+        setError("Unknown error");
+        }
+    }
+    };
 
     if (!id) {
         return <div>No patient with this ID found.</div>;
@@ -107,8 +106,8 @@ const PatientDetailsPage = ({ patients, setPatients }: { patients: Patient[]; se
             <AddEntryForm onSubmit={submitNewEntry} onCancel={() => {}} error={error} setError={setError} diagnosisDetails={diagnosisDetails} />
         </div>
 
-    )
+    );
 
-}
+};
 
 export default PatientDetailsPage;

@@ -1,6 +1,6 @@
 import { useState, SyntheticEvent } from "react";
 
-import {  TextField, InputLabel, MenuItem, Select, Grid, Button, SelectChangeEvent } from '@mui/material';
+import { MenuItem, Select, Button } from '@mui/material';
 
 import { NewEntry, type HealthCheckRating } from "../../types";
 
@@ -38,7 +38,7 @@ const AddHealthCheckForm = ({ onCancel, onSubmit, baseFields }: Props) => {
     <Button type="submit" onClick={addHealthCheckEntry}>Add Health Check Entry</Button>
     <Button onClick={onCancel}>Cancel</Button>
     </>
-  )
+  );
 };
 
 export default AddHealthCheckForm;
