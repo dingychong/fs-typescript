@@ -110,9 +110,11 @@ const PatientDetailsPage = ({ patients, setPatients }: { patients: Patient[]; se
             ) : (
                 <p>No entries available.</p>
             )}
-            <button onClick={() => setModalOpen(true)}>
-                Add New Entry
-            </button>
+            {modalOpen? null: (
+                <button onClick={() => setModalOpen(true)}>
+                    Add New Entry
+                </button>
+            )}
             {modalOpen && (
                 <AddEntryForm onClose={closeModal} onSubmit={submitNewEntry} onCancel={closeModal} error={error} setError={setError} diagnosisDetails={diagnosisDetails} />
             )}
